@@ -10,6 +10,10 @@
 			var obtn=document.getElementById('btn');
 
 				obtn.onclick=function(){
+					if (inp.value=='') {
+						alert('不能为空');
+						return false;
+					}
 					ajax('get','https://api.imjad.cn/cloudmusic/?type=search&s='+inp.value,true,function(data){
 						 news(data);
 				})
@@ -29,14 +33,19 @@
 			 }
 
 			oul.onclick=function(e){
+			
 				var o=e||window.event;
 				var target=o.srcElement||o.target;
-				if (target.nodeName.toLowerCase()=='img') {
+				if (target.nodeName.toLowerCase()=='img') {if (target.getAttribute('title')==0) {
+					alert('此MV不存在');
+					return false;
+				}
 					ajax('get','https://api.imjad.cn/cloudmusic/?type=mv&id='+target.getAttribute('title')+'&br=128000',true,function(data){
 						 var url=data.data.brs['480'];
 						 document.getElementById('audio').setAttribute('src', url)
 					})
 				}
+					
 			}
 		}
 	</script>
