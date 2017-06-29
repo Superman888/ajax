@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="ajax.js"></script>
+	<script>
+		window.onload=function(){
+			var inp=document.getElementById('inp');
+			var obtn=document.getElementById('btn');
+
+				obtn.onclick=function(){
+					ajax('get','https://api.imjad.cn/cloudmusic/?type=search&s='+inp.value,true,function(data){
+						 news(data);
+				})
+			}
+		}
+			function news(data){
+			var oul =document.getElementById('ul');
+			oul.innerHTML='';
+			 for (var i = 0; i <data.result.songs.length; i++){
+			 var li =document.createElement('li');
+			 var img=document.createElement('img');
+			  img.setAttribute('src',data.result.songs[i].al.picUrl);
+			  img.setAttribute('data-id',data.result.songs[i].id);
+			   img.setAttribute('title',data.result.songs[i].mv);
+			  li.appendChild(img);
+			  oul.appendChild(li);
+			 }
+
+			oul.onclick=function(e){
+				var o=e||window.event;
+				var target=o.srcElement||o.target;
+				if (target.nodeName.toLowerCase()=='img') {
+					ajax('get','https://api.imjad.cn/cloudmusic/?type=mv&id='+target.getAttribute('title')+'&br=128000',true,function(data){
+						 var url=data.data.brs['480'];
+						 document.getElementById('audio').setAttribute('src', url)
+					})
+				}
+			}
+		}
+	</script>
+	<style>
+	 *{
+	 	margin:0;
+	 	padding:0;
+	 }
+		#muisc{
+			width:100%;
+		}
+		#muisc ul{
+			margin:0 auto
+		}
+		#muisc li{
+			list-style:none;
+			display:inline-block;
+			width:220px;
+		}
+		#muisc li img{
+			width:100%;
+		}
+		#fox{
+			margin:90px auto 30px 500px;
+		}
+	</style>
+</head>
+<body>
+<div id="muisc">
+ <div id="fox">
+	<input type="text" id="inp"  placeholder='请输入歌曲名称'>
+	<button id="btn">确定</button>
+	</div>
+	<video controls id="audio" autoplay></video>
+	<ul id='ul'>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+		<li><img src="1.jpg"></li>
+	</ul>
+	</div>
+</body>
+</html>
